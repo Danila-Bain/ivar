@@ -1,0 +1,26 @@
+[package]
+name = "ivar"
+version = "0.1.0"
+edition = "2024"
+authors = ["Danila Bain"]
+description = "An IEEE Std 1788™-2015 complient Rust implementation of interval arithmetic"
+keywords = ["arithmetic", "interval", "math", "numerics"]
+categories = ["mathematics", "science"]
+repository = "https://github.com/Danila-Bain/ivar"
+readme = "README.md"
+license = "MIT"
+
+[package.metadata.docs.rs]
+# all-features = true
+# rustdoc-args = ["--cfg", "docsrs", "--html-in-header", "src/_docs/header.html"]
+
+[features]
+default = ["num_traits", "parse", "complex"]
+num_traits = ["dep:num-traits"]
+complex = ["dep:num-complex"]
+parse = []
+
+[dependencies]
+crlibm = "0.2.0"
+num-complex = {version = "0.4.6", optional = true }
+num-traits = { version = "0.2.19", optional = true }
