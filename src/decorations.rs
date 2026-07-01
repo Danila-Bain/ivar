@@ -1,4 +1,7 @@
-use core::ops::{Add, Div, Mul, Neg, Rem, Sub};
+use core::{
+    cmp::Ordering,
+    ops::{Add, Div, Mul, Neg, Rem, Sub},
+};
 
 use crate::{
     Interval, Overlap,
@@ -46,6 +49,12 @@ impl Decoration {
 pub struct DInterval {
     pub i: Interval,
     pub d: Decoration,
+}
+
+impl PartialOrd for DInterval {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.i.partial_cmp(&other.i)
+    }
 }
 
 impl From<Interval> for DInterval {
@@ -229,6 +238,20 @@ impl DInterval {
 
     impl_decorated!(@com_consts ZERO ONE E FRAC_1_PI FRAC_1_SQRT_2 FRAC_2_PI FRAC_2_SQRT_PI FRAC_PI_2 FRAC_PI_3 FRAC_PI_4 FRAC_PI_6 FRAC_PI_8 LN_10 LN_2 LOG10_2 LOG10_E LOG2_10 LOG2_E PI SQRT_2 TAU);
 
+    impl_decorated!((const) fn inf(self) -> f64);
+    impl_decorated!((const) fn sup(self) -> f64);
+    impl_decorated!((const) fn inf_sup(self) -> (f64, f64));
+    impl_decorated!((const) fn mid(self) -> f64);
+    impl_decorated!((const) fn wid(self) -> f64);
+    impl_decorated!((const) fn rad(self) -> f64);
+    impl_decorated!((const) fn mid_wid(self) -> (f64, f64));
+    impl_decorated!((const) fn mid_rad(self) -> (f64, f64));
+    impl_decorated!((const) fn mag(self) -> f64);
+    impl_decorated!((const) fn mig(self) -> f64);
+    impl_decorated!((const) fn hausdorph_distance(self, other: Self) -> f64);
+    impl_decorated!((const) fn hausdorph_distance_ru(self, other: Self) -> f64);
+    impl_decorated!((const) fn hausdorph_distance_rd(self, other: Self) -> f64);
+
     impl_decorated!((const) fn is_empty(self) -> bool);
     impl_decorated!((const) fn is_nai(self) -> bool);
     impl_decorated!((const) fn is_entire(self) -> bool);
@@ -312,7 +335,10 @@ impl DInterval {
     }
 
     impl_decorated!(fn powi(self, n: i32) -> Self);
-    // impl_decorated!(fn pow(self, p: Self) -> Self);
+    #[must_use]
+    pub fn pow(self, p: Self) -> Self {
+        (self.ln() * p).exp()
+    }
     impl_decorated!(fn exp(self) -> Self);
     impl_decorated!(fn exp2(self) -> Self);
     impl_decorated!(fn exp10(self) -> Self);

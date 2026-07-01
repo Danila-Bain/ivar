@@ -10,7 +10,7 @@
 [x] `#[no_std]`.
 [x] Convenient API (subjective).
 [x] Have minimal dependencies. Current implementation has only one required dependency `crlibm` for exponential and trigonometric functions with correct rounding.
-[ ] As an optional but default feature, implement common traits from `num_traits` for intervals (done) and decorated intervals (in progress).
+[x] As an optional but default feature, implement common traits from `num_traits` for intervals and decorated intervals.
 
 ## Inspiration
 
